@@ -26,10 +26,9 @@ if [ "$m1" = "1" ];then
 echo "
 Script is workng,Please be Patient & give some time to harvest it.
 "
-temp=$(cat urllist.txt| wc -l)
-for (( i=1; i<= "$temp"; i++ ))
+cat urllist.txt | while read f1
 do
-f1=$(head -$i urllist.txt)
+
 w3m $f1 >> f1
 perl -wne'while(/[\w\.]+@[\w\.]+/g){print "$&\n"}' f1 | sort -u >> output.txt
 rm f1
@@ -54,11 +53,8 @@ Now we have to make urllist of website.So be Patient & give some time to harvest
 wget --spider --recursive --no-verbose --output-file=wgetlog.txt "$choice"
 sed -n "s@.\+ URL:\([^ ]\+\) .\+@\1@p" wgetlog.txt | sed "s@&@\&amp;@" > urllist.txt
 rm wgetlog.txt
-
-temp=$(cat urllist.txt| wc -l)
-for (( i=1; i<= "$temp"; i++ ))
+cat urllist.txt | while read f1
 do
-f1=$(head -$i urllist.txt)
 w3m $f1 >> f1
 perl -wne'while(/[\w\.]+@[\w\.]+/g){print "$&\n"}' f1 | sort -u >> output.txt
 rm f1
